@@ -1,10 +1,11 @@
 const numbers = document.querySelectorAll('.numbers')
-const result = document.querySelector('.result span')
-const signs = document.querySelector('.sign')
+const result = document.querySelector('.result')
+const signs = document.querySelectorAll('.sign')
 const equals = document.querySelector('.equals')
 const clear = document.querySelector('.clear')
 const negative = document.querySelector('.negative')
 const percent = document.querySelector('.percent')
+
 
 let firstValue = '';
 let secondValue = '';
@@ -13,96 +14,80 @@ let isSecondValue = false;
 let sign ='';
 let resultValue = 0
 
-// numbers.forEach((element) => {
-//   element.addEventListener('click', (ele) =>{
-//     let atr = ele.target.getAttribute('value');
-//     if (isFirstValue === false){
-//       getFirstValue(atr);
-//     }
-//   })
-// })
-
-for(let i = 0; i < numbers.length; i++){
-  numbers[i].addEventListener('click', (e)=> {
+numbers.forEach((element) => {
+  element.addEventListener('click', (e) => {
     let atr = e.target.getAttribute('value');
-    if(isFirstValue == false){
-      getFirstValue(atr)
+    if (isFirstValue === false){
+      getFirstValue(atr);
     }
-    if (isSecondtValue == false){
+    else if(isSecondValue === false) {
       getSecondValue(atr)
     }
+    consoling();
+  })
+})
+
+signs.forEach((element) => {
+  element.addEventListener('click', (e) => {
+    sign = e.target.getAttribute('value');
+    isFirstValue = true;
+    firstValue = Number(firstValue)
+    consoling()
   })
 }
-
+)
 
 function getFirstValue(el) {
-  result.innerHTML = '';
+  result.innerHTML = ''; // ?
   firstValue += el;
   result.innerHTML = firstValue;
-  firstValue = firstValue;
 }
 
 
 function getSecondValue(el){
-  if(firstValue != '' && sign != '') {
-    secondValue += el;
-    result.innerHTML = secondValue;
-    secondValue = +secondValue;
-  }
+  result.innerHTML = '';
+  secondValue += el;
+  result.innerHTML = secondValue;
 }
 
-function getSign() {
-  for(let i = 0; i < signs.length; i++){
-    signs[i].addEventListener('click', (e)=> {
-      sign = e.target.getAttribute('value');
-      isFirstValue = true
-    })
-  }
-}
-
-getSign();
 
 equals.addEventListener('click', ()  => {
-  result.innerHTML = '';
-  if (sign === '+'){
-    result = firstValue + secondValue;
-  } else if (sign === '-'){
-    result = firstValue - secondValue;
-  } else if (sign === 'x'){
-    result = firstValue * secondValue;
-  } else if(sign ==='/'){
-    result = firstValue / secondValue
+  secondValue = Number(secondValue)
+  switch (sign) {
+    case '+':
+      resultValue = firstValue + secondValue;
+      break;
+    case '-':
+      resultValue = firstValue - secondValue;
+      break;
+    case 'x':
+      resultValue = firstValue * secondValue;
+      break;
+    case '/':
+      resultValue = firstValue / secondValue;
+      break;
   }
-  result.innerHTML = resultValue;
   firstValue = resultValue;
+  result.innerHTML = resultValue;
   secondValue = '';
-  
-  checkResultLength();
-}
-)
 
-function checkResultLength() {
-  resultValue = JSON.stringify(resultValue);
+})
 
-  if(resultValue.length >= 8){
-    resultValue = JSON.parse(resultValue);
-    result.innerHTML = resultValue.toFixed(5);
-  }
-}
 
 negative.addEventListener('click', () => {
-  result.innerHTML= '';
-  if(firstValue != '') {
-    resultValue = -firstValue;
-    firstValue = resultValue;
+  console.log(firstValue)
+  if (result.innerHTML = firstValue){
+    firstValue *= -1;
+    result.innerHTML = firstValue;
+  }
+  else if (result.innerHTML = secondValue){
+    secondValue *= -1;
+    result.innerHTML = secondValue;
+
+  }
   }
 
-  if(!firstValue && !secondValue && !sign){
-    resultValue = -resultValue
-  }
-
-  result.innerHTML = resultValue
-})
+)
 
 percent.addEventListener('click', () =>{
   result.innerHTML = '';
@@ -127,3 +112,14 @@ clear.addEventListener('click', () => {
   sign = '';
   resultValue = 0
 })
+
+
+function consoling() {
+
+  console.log('isFirst:' + isFirstValue + ', firstValue:' + firstValue + ', its type: ' + typeof(firstValue))
+  console.log('isSecond:' + isSecondValue + ', secondValue:' + secondValue + ', its type: ' + typeof(secondValue))
+  console.log('sign: ' + sign)
+  console.log('resultValue:' + resultValue + ', result:' + result + ', its type: ' + typeof(resultValue))
+  console.log('------------------------')
+
+}
